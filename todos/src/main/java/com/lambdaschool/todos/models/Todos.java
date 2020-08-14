@@ -11,14 +11,14 @@ public class Todos extends Auditable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long todoid;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("todos")
     @JoinColumn(name = "userid")
     private User user;
 
     private String description;
 
-    private boolean completed = false;
+    private boolean completed;
 
     public Todos() {
     }
@@ -26,6 +26,7 @@ public class Todos extends Auditable{
     public Todos(User user, String description) {
         this.user = user;
         this.description = description;
+        this.completed = false;
     }
 
     public long getTodoid() {

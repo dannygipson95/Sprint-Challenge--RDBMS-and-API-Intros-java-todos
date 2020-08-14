@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService
             .iterator()
             .forEachRemaining(list::add);
 
-        for (User u : list){
-            u.getTodos().add(new Todos(u, "This is working, why isn't the seed data?"));
-        }
+//        for (User u : list){
+//            u.getTodos().add(new Todos(u, "This is working, why isn't the seed data?"));
+//        }
         return list;
     }
 
@@ -70,18 +70,30 @@ public class UserServiceImpl implements UserService
     {
         User newUser = new User();
 
-        newUser.setUsername(user.getUsername()
-            .toLowerCase());
-        newUser.setPassword(user.getPassword());
-        newUser.setPrimaryemail(user.getPrimaryemail()
-            .toLowerCase());
+        if (user.getUserid() != 0){
+            userrepos.findById(user.getUserid())
+                    .orElseThrow(() -> new EntityNotFoundException("Not Found"));
+        }
 
+        newUser.setPassword(user.getPassword());
+        newUser.setPrimaryemail(user.getPrimaryemail());
+        newUser.setUsername(user.getUsername());
+
+        newUser.getTodos().clear();
+
+        for (Todos t : user.getTodos()){
+            Todos newTodo = new Todos();
+            newTodo.setUser(newUser);
+            newTodo.setDescription(t.getDescription());
+            newUser.getTodos().add(newTodo);
+
+        }
         return userrepos.save(newUser);
     }
 
     @Override
     public List<UserNameCountTodos> getCountUserTodos()
     {
-        return null;
+        return userrepos.getCountUserTodos();
     }
 }

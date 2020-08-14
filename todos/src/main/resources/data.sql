@@ -1,0 +1,10 @@
+-- DELETE
+-- FROM users
+--
+-- DELETE
+-- FROM todos
+--
+-- INSERT INTO USERS(userid, username, password, primaryemail)
+--         VALUES (1, 'admin', 'password', 'admin@lambdaschool.local')
+--
+-- INSERT INTO TODOS(todoid, userid, )
